@@ -12,7 +12,9 @@ param_grid = {
 }
 
 
-df = pd.read_csv('archive\\data_ecommerce_customer_churn.csv')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(current_dir, 'data', 'data_ecommerce_customer_churn.csv')
+df = pd.read_csv(csv_path)
 df = pd.get_dummies(df, columns=["PreferedOrderCat", "MaritalStatus"])
 
 y = df['Churn']

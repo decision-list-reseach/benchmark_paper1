@@ -6,7 +6,9 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, confu
 import os
 
 
-df = pd.read_csv('archive\\data_ecommerce_customer_churn.csv')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(current_dir, 'data', 'data_ecommerce_customer_churn.csv')
+df = pd.read_csv(csv_path)
 # print(df.head())
 df = pd.get_dummies(df, columns=["PreferedOrderCat", "MaritalStatus"])
 # df.info()
@@ -68,7 +70,7 @@ for i in range(5):
     }
 
     df_current_run = pd.DataFrame([params_and_metrics])
-    log_file = "file_name.csv"
+    log_file = os.path.join(current_dir, 'logs', 'file_name.csv')
 
     if not os.path.isfile(log_file):
         df_current_run.to_csv(log_file, index=False)
