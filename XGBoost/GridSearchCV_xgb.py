@@ -1,7 +1,6 @@
 import pandas as pd
 from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix, classification_report
 import os
 
 param_grid = {
@@ -13,7 +12,9 @@ param_grid = {
 
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-csv_path = os.path.join(current_dir, 'data', 'data_ecommerce_customer_churn.csv')
+parent_dir = os.path.dirname(current_dir)
+csv_path = os.path.join(parent_dir, 'data', 'data_ecommerce_customer_churn.csv')
+
 df = pd.read_csv(csv_path)
 df = pd.get_dummies(df, columns=["PreferedOrderCat", "MaritalStatus"])
 
@@ -29,7 +30,7 @@ grid_search = GridSearchCV(
     estimator=base_xgb, 
     param_grid=param_grid, 
     cv=5, 
-    # scoring='accuracy', #or recall, precision
+    scoring='f1',
     verbose=1
 )
 
