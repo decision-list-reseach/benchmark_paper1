@@ -12,7 +12,11 @@ def save_scores(file_name, current_dir, y_test, preds, time_needed):
     }
 
     df_current_run = pd.DataFrame([params_and_metrics])
-    log_file = os.path.join(current_dir, 'logs', f'{file_name}.csv')
+    
+    logs_dir = os.path.join(current_dir, 'logs')
+    os.makedirs(logs_dir, exist_ok=True)
+    
+    log_file = os.path.join(logs_dir, f'{file_name}.csv')
 
     if not os.path.isfile(log_file):
         df_current_run.to_csv(log_file, index=False)
