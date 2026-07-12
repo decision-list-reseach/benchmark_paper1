@@ -1,0 +1,24 @@
+# Configuration for CORELS preprocessing pipeline
+dataset:
+  path: "data/data_ecommerce_customer_churn.csv"
+  target_column: "Churn"
+
+discretization:
+  strategy: "quantile"
+  n_bins: 4
+
+features:
+  binary:
+    - "Complain"
+  nominal:
+    - "PreferedOrderCat"
+    - "MaritalStatus"
+  ordinal:
+    - "SatisfactionScore"
+    - "NumberOfDeviceRegistered"
+    - "NumberOfAddress"
+  continuous:
+    - "Tenure"
+    - "WarehouseToHome"
+    - "DaySinceLastOrder"
+    - "CashbackAmount"

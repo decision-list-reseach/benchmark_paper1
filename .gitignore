@@ -277,6 +277,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.venv_corels_310
 
 # Spyder project settings
 .spyderproject
@@ -365,3 +366,30 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,pycharm,python,visualstudiocode
+
+# --- Project Specific Customizations ---
+
+# Virtual Environments
+.venv*
+.env*
+
+# Generated Datasets
+data/*_corels.csv
+data/*_ripper.csv
+data/*_xgboost.csv
+
+# Experiment Outputs & Logs
+CORELS/results/
+CORELS/logs/
+CORELS/models/
+RIPPER/results/
+RIPPER/logs/
+RIPPER/models/
+XGBoost/results/
+XGBoost/logs/
+XGBoost/models/
+
+# Build & Installation Directories
+build/
+dist/
+*.egg-info/
