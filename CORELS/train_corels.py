@@ -28,7 +28,7 @@ def main():
     for i in range(5):
         print(f"\n--- CORELS Run {i+1}/5 ---")
         # Stratified split to match XGBoost/RIPPER methodology without fixed random state for 5-fold evaluation
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42 + i)
         
         corels_clf = CorelsClassifier(c=0.01, n_iter=10000, verbosity=[], max_card=2)
         
@@ -69,11 +69,42 @@ def main():
     print(rule_list_str)
     
     # Save Rule List
-    results_dir = os.path.join(current_dir, 'results')
+    results_dir = os.path.join(parent_dir, 'results')
     os.makedirs(results_dir, exist_ok=True)
     rules_path = os.path.join(results_dir, 'corels_rules.txt')
+    
+    # Calculate stats
+    lines = str(rule_list_str).strip().split('\n')
+    total_rules = 0
+    total_conds = 0
+    for line in lines:
+        if line.startswith('if ') or line.startswith('else if '):
+            total_rules += 1
+            conds_in_rule = line.count('&&') + 1
+            total_conds += conds_in_rule
+            
+    avg_conds = total_conds / total_rules if total_rules > 0 else 0
+    
+    header_block = f"""CORELS Rule List
+================
+
+Parameters:
+c = {corels_clf.c}
+max_card = {corels_clf.max_card}
+policy = {corels_clf.policy}
+n_iter = {corels_clf.n_iter}
+
+================================
+Rule List
+================================
+
+"""
+
+    stats_block = f"\n================================\n\nTotal rules: {total_rules}\n\nAverage conditions per rule: {avg_conds:.2f}\n\nTotal logical conditions: {total_conds}\n"
+    final_output = header_block + str(rule_list_str) + stats_block
+
     with open(rules_path, "w") as f:
-        f.write(str(rule_list_str))
+        f.write(final_output)
 
 if __name__ == "__main__":
     main()

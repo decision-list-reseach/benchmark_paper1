@@ -22,7 +22,7 @@ y = df['Churn']
 X = df.drop('Churn', axis=1)
 
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2, stratify=y, random_state=42)
 
 base_xgb = XGBClassifier(random_state=42)
 
